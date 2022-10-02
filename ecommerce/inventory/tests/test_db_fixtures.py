@@ -2,22 +2,22 @@ import pytest
 from ecommerce.inventory.models import Category
 
 
-# # @pytest.mark.dbfixture
-# @pytest.mark.parametrize(
-#     "id, name, slug, is_active",
-#     [
-#         (1, "fashion", "fashion", 1),
-#         # (3, "trainers", "trainers", 1),
-#         # (5, "baseball", "baseball", 1),
-#     ],
-# )
-# def test_inventory_category_dbfixture(db, db_fixture_setup, id, name, slug, is_active):
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "id, name, slug, is_active",
+    [
+        (1, "fashion", "fashion", 1),
+        (18, "trainers", "trainers", 1),
+        (35, "baseball", "baseball", 1),
+    ],
+)
+def test_inventory_category_dbfixture(db, db_fixture_setup, id, name, slug, is_active):
 
-#     result = Category.objects.get(id=id)
-#     print(result.name)
-#     assert result.name == name
-#     assert result.slug == slug
-#     assert result.is_active == is_active
+    result = Category.objects.get(id=id)
+    print(result.name)
+    assert result.name == name
+    assert result.slug == slug
+    assert result.is_active == is_active
 
 
 @pytest.mark.parametrize(
