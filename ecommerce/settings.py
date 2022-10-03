@@ -44,6 +44,7 @@ class Dev(Configuration):
         # Local Apps
         "ecommerce.dashboard",
         "ecommerce.inventory",
+        "ecommerce.demo",
         # External Apps
         "mptt",
     ]
