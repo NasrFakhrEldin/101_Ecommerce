@@ -1,5 +1,5 @@
 import pytest
-from ecommerce.inventory.models import Category, Product
+from ecommerce.inventory.models import Category, Product, ProductInventory
 
 from django.db import IntegrityError
 
@@ -18,7 +18,6 @@ def test_inventory_db_category_dbfixture(
 ):
 
     result = Category.objects.get(id=id)
-    # print(result.name)
     assert result.name == name
     assert result.slug == slug
     assert result.is_active == is_active
@@ -111,3 +110,132 @@ def test_inventory_db_product_insert_data(db, product_factory, category_factory)
     result_product_category = new_product.category.all().count()
     assert "web_id_" in new_product.web_id
     assert result_product_category == 5
+
+
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "id, sku, upc, product_type, product, brand, is_active, retail_price, store_price, sale_price, weight, created_at, updated_at",
+    [
+        (
+            1,
+            "7633969397",
+            "934093051374",
+            1,
+            1,
+            1,
+            1,
+            97.00,
+            92.00,
+            46.00,
+            987,
+            "2021-09-04 22:14:18.279095",
+            "2021-09-04 22:14:18.279095",
+        ),
+        (
+            8616,
+            "3880741573",
+            "844935525855",
+            1,
+            8616,
+            1253,
+            1,
+            89.00,
+            84.00,
+            42.00,
+            929,
+            "2021-09-04 22:14:18.279095",
+            "2021-09-04 22:14:18.279095",
+        ),
+    ],
+)
+def test_inverntory_db_product_inventory_dbfixture(
+    db,
+    db_fixture_setup,
+    id,
+    sku,
+    upc,
+    product_type,
+    product,
+    brand,
+    is_active,
+    retail_price,
+    store_price,
+    sale_price,
+    weight,
+    created_at,
+    updated_at,
+):
+    result = ProductInventory.objects.get(id=id)
+
+    result_created_at = result.created_at.strftime("%Y-%m-%d %H:%M:%S.%f")
+    result_updated_at = result.updated_at.strftime("%Y-%m-%d %H:%M:%S.%f")
+
+    assert result.sku == sku
+    assert result.upc == upc
+    assert result.product_type.id == product_type
+    assert result.product.id == product
+    assert result.brand.id == brand
+    assert result.is_active == is_active
+    assert result.retail_price == retail_price
+    assert result.store_price == store_price
+    assert result.sale_price == sale_price
+    assert result.weight == weight
+    assert result_created_at == created_at
+    assert result_updated_at == updated_at
+
+
+def test_inventory_db_product_sku_uniqueness_integrity(db, product_inventory_factory):
+    new_sku = product_inventory_factory.create(sku=123456789)
+    with pytest.raises(IntegrityError):
+        product_inventory_factory.create(sku=123456789)
+
+
+def test_inventory_db_product_upc_uniqueness_integrity(db, product_inventory_factory):
+    new_sku = product_inventory_factory.create(upc=123456789)
+    with pytest.raises(IntegrityError):
+        product_inventory_factory.create(upc=123456789)
+
+
+def test_inventory_db_product_type_insert_data(db, product_type_factory):
+    new_type = product_type_factory.create(name="demo_type")
+    assert new_type.name == "demo_type"
+
+
+def test_inventory_db_product_type_uniqueness_integrity(db, product_type_factory):
+    product_type_factory.create(name="not_unique")
+    with pytest.raises(IntegrityError):
+        product_type_factory.create(name="not_unique")
+
+
+def test_inventory_db_brand_insert_data(db, brand_factory):
+    new_brand = brand_factory.create(name="demo_brand")
+    assert new_brand.name == "demo_brand"
+
+
+def test_inventory_db_brand_uniqueness_integrity(db, brand_factory):
+    brand_factory.create(name="not_unique")
+    with pytest.raises(IntegrityError):
+        brand_factory.create(name="not_unique")
+
+
+def test_inventory_db_product_inventory_insert_data(db, product_inventory_factory):
+    new_product = product_inventory_factory.create(
+        sku="123456789",
+        upc="123456789",
+        product_type__name="new_name",
+        product__web_id="123456789",
+        brand__name="new_name",
+        is_active=True,
+    )
+    assert new_product.sku == "123456789"
+    assert new_product.upc == "123456789"
+    assert new_product.product_type.name == "new_name"
+    assert new_product.product.web_id == "123456789"
+    assert new_product.brand.name == "new_name"
+
+    # static field
+    assert new_product.is_active == True
+    assert new_product.retail_price == 97.00
+    assert new_product.store_price == 92.00
+    assert new_product.sale_price == 46.00
+    assert new_product.weight == 987
