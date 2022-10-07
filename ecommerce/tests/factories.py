@@ -11,6 +11,8 @@ from ecommerce.inventory.models import (
     ProductInventory,
     Media,
     Stock,
+    ProductAttribute,
+    ProductAttributeValue,
 )
 
 fake = Faker()
@@ -95,6 +97,22 @@ class StockFactory(factory.django.DjangoModelFactory):
     units_sold = 100
 
 
+class ProductAttributeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ProductAttribute
+
+    name = factory.Sequence(lambda n: "attribute_name_%d" % n)
+    description = factory.Sequence(lambda n: "description_%d" % n)
+
+
+class ProductAttributeValueFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ProductAttributeValue
+
+    product_attribute = factory.SubFactory(ProductAttributeFactory)
+    attribute_value = factory.Sequence(lambda n: "attribute_value_%d" % n)
+
+
 register(CategoryFactory)
 register(ProductFactory)
 register(ProductTypeFactory)
@@ -102,3 +120,5 @@ register(BrandFactory)
 register(ProductInventoryFactory)
 register(MediaFactory)
 register(StockFactory)
+register(ProductAttributeFactory)
+register(ProductAttributeValueFactory)
