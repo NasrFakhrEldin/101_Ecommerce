@@ -7,6 +7,7 @@ from ecommerce.inventory.models import (
     Stock,
     ProductAttribute,
     ProductAttributeValue,
+    ProductAttributeValues,
 )
 
 from django.db import IntegrityError
@@ -386,10 +387,25 @@ def test_inventory_db_product_attribute_value_dbfixture(
     # assert result.product_attribute.id == product_attribute.id
     # assert result.attribute_value == attribute_value
 
-def test_inventory_db_product_attribute_value_insert_data(db, product_attribute_value_factory):
+
+def test_inventory_db_product_attribute_value_insert_data(
+    db, product_attribute_value_factory
+):
     new_attribute_value = product_attribute_value_factory.create(
         attribute_value="new_value", product_attribute__name="new_value"
     )
-    
+
     assert new_attribute_value.attribute_value == "new_value"
     assert new_attribute_value.product_attribute.name == "new_value"
+
+
+def test_inventory_db_product_attribute_values_insert_data(
+    db, product_with_attribute_values_factory
+):
+
+    new_inventory_attribute = product_with_attribute_values_factory(sku="123456789")
+    result = ProductInventory.objects.get(sku="123456789")
+
+    result_count = result.attribute_values.all().count()
+
+    assert result_count == 2
