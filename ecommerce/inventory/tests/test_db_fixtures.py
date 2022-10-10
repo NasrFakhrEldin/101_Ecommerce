@@ -123,12 +123,13 @@ def test_inventory_db_product_insert_data(db, product_factory, category_factory)
 
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
-    "id, sku, upc, product_type, product, brand, is_active, retail_price, store_price, sale_price, weight, created_at, updated_at",
+    "id, sku, upc, product_type, product, brand, is_active, is_default, retail_price, store_price, sale_price, weight, created_at, updated_at",
     [
         (
             1,
             "7633969397",
-            "934093051374",
+            "100000000001",
+            1,
             1,
             1,
             1,
@@ -143,10 +144,11 @@ def test_inventory_db_product_insert_data(db, product_factory, category_factory)
         (
             8616,
             "3880741573",
-            "844935525855",
+            "100000008616",
             1,
             8616,
             1253,
+            1,
             1,
             89.00,
             84.00,
@@ -167,6 +169,7 @@ def test_inverntory_db_product_inventory_dbfixture(
     product,
     brand,
     is_active,
+    is_default,
     retail_price,
     store_price,
     sale_price,
@@ -185,6 +188,7 @@ def test_inverntory_db_product_inventory_dbfixture(
     assert result.product.id == product
     assert result.brand.id == brand
     assert result.is_active == is_active
+    assert result.is_default == is_default
     assert result.retail_price == retail_price
     assert result.store_price == store_price
     assert result.sale_price == sale_price
@@ -372,7 +376,7 @@ def test_inventory_db_product_attribute_uniqueness_integrity(
 @pytest.mark.parametrize(
     "id, product_attribute, attribute_value",
     [
-        (1, 1, 10),
+        (1, 1, 5),
     ],
 )
 def test_inventory_db_product_attribute_value_dbfixture(
@@ -382,7 +386,7 @@ def test_inventory_db_product_attribute_value_dbfixture(
     # result = ProductAttributeValue.objects.get(id=id)
 
     assert result.product_attribute.id == 1
-    assert result.attribute_value == "10"
+    assert result.attribute_value == "5"
 
     # assert result.product_attribute.id == product_attribute.id
     # assert result.attribute_value == attribute_value

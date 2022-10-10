@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Product Details:</h1>
+
+{% for data in all_data %}
+    <li>Product Name: {{data.product__name}}</li>
+    <li>SKU: {{data.sku}}</li>
+    <li>Store Price: {{data.store_price}}</li>
+    <li>Units: {{data.product_inventory__units}}</li>
+    <br/>
+
+    {% for data_one in dump_two %}
+        <br/>
+        <h5>{{data_one.product_attribute__name}}</h5>
+        {% for data_two in dump_one %}
+        {% if data_two.attribute_values__product_attribute__name == data_one.product_attribute__name %}
+            <li>{{data_two.attribute_values__attribute_value}}</li>
+        {% endif %}
+        {% endfor %}
+
+    {% endfor %}
+<br/>
+{% endfor %}
+{% endblock content %}
