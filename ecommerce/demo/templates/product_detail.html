@@ -1,24 +1,86 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Product Details:</h1>
-
-{% for data in all_data %}
+{% comment %} {% for data in all_data %}
     <li>Product Name: {{data.product__name}}</li>
     <li>SKU: {{data.sku}}</li>
     <li>Store Price: {{data.store_price}}</li>
     <li>Units: {{data.product_inventory__units}}</li>
     <br/>
 
+{% endfor %} {% endcomment %}
+
+<ul>
+    <li>Product Name: {{all_data.product__name}}</li>
+    <li>SKU: {{all_data.sku}}</li>
+    <li>Store Price: {{all_data.store_price}}</li>
+    <li>Units: {{all_data.product_inventory__units}}</li>
+    <br/>
+</ul>
+<ul>
     {% for data_one in dump_two %}
-        <br/>
+    <li>
         <h5>{{data_one.product_attribute__name}}</h5>
+        <ul>
         {% for data_two in dump_one %}
-        {% if data_two.attribute_values__product_attribute__name == data_one.product_attribute__name %}
-            <li>{{data_two.attribute_values__attribute_value}}</li>
+            {% if data_two.attribute_values__product_attribute__name == data_one.product_attribute__name %}
+            <li>
+            {% if data_two.attribute_values__attribute_value in all_data.field %}
+                <div id="target-{{data_two.attribute_values__attribute_value}}"
+                class="selected fw-bold" data-attribute="{{data_one.product_attribute__name}}"
+                value="{{data_two.attribute_values__attribute_value}}">{{data_two.attribute_values__attribute_value}}</div>
+            {% else %}
+                    <div id="target-{{data_two.attribute_values__attribute_value}}"
+                    class="" data-attribute="{{data_one.product_attribute__name}}"
+                    value="{{data_two.attribute_values__attribute_value}}">{{data_two.attribute_values__attribute_value}}</div>
+            {% endif %}
+            </li>
         {% endif %}
         {% endfor %}
-
+        </ul>
+        </li>
+        <br>
     {% endfor %}
-<br/>
-{% endfor %}
+</ul>
+
+<script>
+
+    var dict = {}
+
+    let boxId = document.querySelectorAll('[id^=target]');
+
+    let counter = 0
+    let boxLenght = boxId.length
+
+    for(let i in boxId){
+        if(counter < boxLenght){
+            if(boxId[i].classList.contains("selected")){
+                dict[boxId[i].getAttribute('data-attribute')] = boxId[i].getAttribute('value')
+            }
+        }else{
+            break
+        } counter++
+    }
+
+    $('[id^=target]').click(function(){
+        let value = this.getAttribute('value');
+        let dataAttribute = this.getAttribute('data-attribute');
+        dict[dataAttribute] = value;
+
+        const querystring = buildUrlWithParams(dict)
+        const url = window.location.href.split('?')[0]
+
+        window.location.href = url + '?' + querystring;
+    });
+
+
+    function buildUrlWithParams(data){
+        var searchParams = [];
+        
+        for(var d in data){
+            searchParams.push(d + '=' + data[d]);
+        }
+        return searchParams.join('&');
+    }
+</script>
 {% endblock content %}

@@ -29,50 +29,79 @@ def product_by_category(request, category):
 
 
 def product_detail(request, slug):
-
+    from django.contrib.postgres.aggregates import ArrayAgg
+    from django.db.models import Count
     filter_arguments = []
 
-    if request.method == "GET":
+    if request.GET:
         for value in request.GET.values():
             filter_arguments.append(value)
-    print(filter_arguments)
+        # print(filter_arguments)
 
-    # all_data = models.Product.objects.filter(slug=slug)
-    # all_data = models.ProductInventory.objects.filter(product__slug=slug).values(
-    #     "id", "sku", "product__name", "store_price", "product_inventory__units"
-    # )
+        # all_data = models.Product.objects.filter(slug=slug)
+        # all_data = models.ProductInventory.objects.filter(product__slug=slug).values(
+        #     "id", "sku", "product__name", "store_price", "product_inventory__units"
+        # )
 
-    # all_data = (
-    #     models.ProductInventory.objects.filter(product__slug=slug)
-    #     .filter(attribute_values__attribute_value="red")
-    #     .filter(attribute_values__attribute_value=5)
-    #     .select_related("product")
-    # ).values(
-    #     "id", "sku", "product__name", "store_price", "product_inventory__units"
-    # )
+        # all_data = (
+        #     models.ProductInventory.objects.filter(product__slug=slug)
+        #     .filter(attribute_values__attribute_value="red")
+        #     .filter(attribute_values__attribute_value=5)
+        #     .select_related("product")
+        # ).values(
+        #     "id", "sku", "product__name", "store_price", "product_inventory__units"
+        # )
 
-    # all_data = (
-    #     models.ProductInventory.objects.filter(product__slug=slug).filter(
-    #         attribute_values__attribute_value__in=filter_arguments
-    #     )
-    # ).values("id", "sku", "product__name", "store_price", "product_inventory__units")
+        # all_data = (
+        #     models.ProductInventory.objects.filter(product__slug=slug).filter(
+        #         attribute_values__attribute_value__in=filter_arguments
+        #     )
+        # ).values("id", "sku", "product__name", "store_price", "product_inventory__units")
 
-    # all_data = (
-    #     models.ProductInventory.objects.filter(product__slug=slug)
-    #     .filter(attribute_values__attribute_value=filter_arguments[0])
-    #     .filter(attribute_values__attribute_value=filter_arguments[1])
-    # ).values("id", "sku", "product__name", "store_price", "product_inventory__units")
+        # all_data = (
+        #     models.ProductInventory.objects.filter(product__slug=slug)
+        #     .filter(attribute_values__attribute_value=filter_arguments[0])
+        #     .filter(attribute_values__attribute_value=filter_arguments[1])
+        # ).values("id", "sku", "product__name", "store_price", "product_inventory__units")
 
-    from django.db.models import Count
+        # all_data = (
+        #     models.ProductInventory.objects.filter(product__slug=slug)
+        #     .filter(attribute_values__attribute_value__in=filter_arguments)
+        #     .annotate(num_tags=Count("attribute_values"))
+        #     .filter(num_tags=len(filter_arguments))
+        # ).values(
+        #     "id", "sku", "product__name", "store_price", "product_inventory__units"
+        # )
+        all_data = (
+            models.ProductInventory.objects.filter(product__slug=slug)
+            .filter(attribute_values__attribute_value__in=filter_arguments)
+            .annotate(num_tags=Count("attribute_values"))
+            .filter(num_tags=len(filter_arguments))
+        ).values(
+            "id", "sku", "product__name", "store_price", "product_inventory__units"
+        ).annotate(field=ArrayAgg("attribute_values__attribute_value")).get()
+        print(all_data)
 
-    all_data = (
-        models.ProductInventory.objects.filter(product__slug=slug)
-        .filter(attribute_values__attribute_value__in=filter_arguments)
-        .annotate(num_tags=Count("attribute_values"))
-        .filter(num_tags=len(filter_arguments))
-    ).values("id", "sku", "product__name", "store_price", "product_inventory__units")
+    else:
 
-    # print(all_data.query)
+        # all_data = (
+        #     models.ProductInventory.objects.filter(product__slug=slug).values(
+        #         "id", "sku", "product__name", "store_price", "product_inventory__units"
+        #     ).annotate(filed = ArrayAgg("attribute_values__attribute_value")
+        #     )
+        # )
+
+        all_data = (
+            models.ProductInventory.objects.filter(product__slug=slug)
+            .filter(is_default=True)
+            .values(
+                "id", "sku", "product__name", "store_price", "product_inventory__units"
+            )
+            .annotate(field=ArrayAgg("attribute_values__attribute_value")).get()
+        )
+
+        print(all_data)
+
     dump_one = (
         models.ProductInventory.objects.filter(product__slug=slug)
         .distinct()
@@ -83,10 +112,14 @@ def product_detail(request, slug):
     )
     # print(dump_one)
 
-    dump_two = models.ProductTypeAttribute.objects.filter(
-        product_type__product_type__product__slug=slug
-    ).values("product_attribute__name").distinct()
-    print(dump_two)
+    dump_two = (
+        models.ProductTypeAttribute.objects.filter(
+            product_type__product_type__product__slug=slug
+        )
+        .values("product_attribute__name")
+        .distinct()
+    )
+    # print(dump_two)
 
     return render(
         request,
