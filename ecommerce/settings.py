@@ -45,9 +45,11 @@ class Dev(Configuration):
         "ecommerce.dashboard",
         "ecommerce.inventory",
         "ecommerce.demo",
+        "ecommerce.drf",
         # External Apps
         "mptt",
         "django_elasticsearch_dsl",
+        "rest_framework",
     ]
 
     MIDDLEWARE = [
@@ -149,6 +151,4 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
     DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-    ELASTICSEARCH_DSL = {
-        "default": {"hosts": "localhost:9200"}
-    }
+    ELASTICSEARCH_DSL = {"default": {"hosts": "localhost:9200"}}
