@@ -339,7 +339,7 @@ class Media(models.Model):
         related_name="media_product_inventory",
     )
 
-    image = models.ImageField(
+    img_url = models.ImageField(
         unique=False,
         null=False,
         blank=False,
