@@ -46,6 +46,7 @@ class Dev(Configuration):
         "ecommerce.inventory",
         "ecommerce.demo",
         "ecommerce.drf",
+        "ecommerce.search",
         # External Apps
         "mptt",
         "django_elasticsearch_dsl",

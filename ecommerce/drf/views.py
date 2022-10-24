@@ -58,3 +58,8 @@ class ProductInventoryViewsSet(viewsets.ReadOnlyModelViewSet):
 
 # https://www.django-rest-framework.org/api-guide/viewsets/
 # https://learnbatta.com/blog/viewsets-in-django-rest-framework-83/
+# https://profil-software.com/blog/development/10-things-you-need-know-effectively-use-django-rest-framework/
+# https://github.com/beda-software/drf-writable-nested
+# https://testdriven.io/blog/drf-views-part-3/
+# https://testdriven.io/blog/django-drf-elasticsearch/
+# https://django-elasticsearch-dsl-drf.readthedocs.io/en/latest/\
