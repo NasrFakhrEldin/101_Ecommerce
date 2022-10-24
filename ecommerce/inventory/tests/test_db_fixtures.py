@@ -296,7 +296,7 @@ def test_inventory_db_media_dbfixture(
     result_updated_at = result.updated_at.strftime("%Y-%m-%d %H:%M:%S.%f")
 
     assert result.product_inventory.id == product_inventory
-    assert result.image == image
+    assert result.img_url == image
     assert result.alt_text == alt_text
     assert result.is_feature == is_feature
     assert result_created_at == created_at
@@ -307,7 +307,7 @@ def test_inventory_db_media_insert_data(db, media_factory):
     new_media = media_factory.create(product_inventory__sku="123456789")
 
     assert new_media.product_inventory.sku == "123456789"
-    assert new_media.image == "images/default.png"
+    assert new_media.img_url == "images/default.png"
     assert new_media.alt_text == "a default image solid color"
     assert new_media.is_feature == 1
 

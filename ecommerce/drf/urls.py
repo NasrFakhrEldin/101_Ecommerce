@@ -1,7 +1,7 @@
-from email.mime import base
 from django.urls import path, include
 from rest_framework import routers
 from ecommerce.drf import views
+from ecommerce.search.views import ProdcutInventorySearch
 
 app_name = "drf"
 
@@ -24,4 +24,5 @@ router.register(
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("search/<str:query>/", ProdcutInventorySearch.as_view()),
 ]
