@@ -14,14 +14,9 @@ class ProdcutInventorySearch(APIView, LimitOffsetPagination):
     def get(self, request, query):
         try:
             q = Q(
-                "multi_match",
-                query=query,
-                fields=[
-                    "id",
-                    "sku",
-                    "retail_price",
-                ],
-            )
+                "multi_match", query=query, fields=["product.name"], fuzziness="auto"
+            ) & Q("bool", should=Q("match", is_default=True), minimum_should_match=1)
+
             search = self.search_document.search().query(q)
             response = search.execute()
             result = self.paginate_queryset(response, request, view=self)
@@ -30,3 +25,6 @@ class ProdcutInventorySearch(APIView, LimitOffsetPagination):
 
         except Exception as e:
             return HttpResponse(e, status=500)
+
+
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl.html

@@ -72,37 +72,49 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(many=True)
+    # category = CategorySerializer(many=True)
 
     class Meta:
         model = Product
-        fields = ["web_id", "slug", "name", "description", "category"]
+        # fields = ["web_id", "slug", "name", "description", "category"]
+        fields = ["name"]
         read_only = True
         editable = False
 
 
 class ProductInventorySerializer(serializers.ModelSerializer):
     product = ProductSerializer(many=False, read_only=True)
-    image = MediaSerializer(source="media_product_inventory", many=True, read_only=True)
-    type = ProductTypeSerializer(source="product_type", many=False, read_only=True)
-    attributes = ProductAtrributeValueSerializer(
-        source="attribute_values", many=True, read_only=True
-    )
-    brand = BrandSerializer(many=False, read_only=True)
-    price = serializers.DecimalField(
-        source="retail_price", max_digits=5, decimal_places=2
-    )
+    # image = MediaSerializer(source="media_product_inventory", many=True, read_only=True)
+    # type = ProductTypeSerializer(source="product_type", many=False, read_only=True)
+    # attributes = ProductAtrributeValueSerializer(
+    #     source="attribute_values", many=True, read_only=True
+    # )
+    # brand = BrandSerializer(many=False, read_only=True)
+    # price = serializers.DecimalField(
+    #     source="retail_price", max_digits=5, decimal_places=2
+    # )
 
     class Meta:
         model = ProductInventory
+
         fields = [
+            "id",
             "sku",
-            "price",
+            "store_price",
             "is_default",
             "product",
-            "image",
-            "type",
-            "brand",
-            "attributes",
         ]
+
+        # fields = [
+        #     "sku",
+        #     "price",
+        #     "is_default",
+        #     "product",
+        #     "image",
+        #     "type",
+        #     "brand",
+        #     "attributes",
+        #     "store_price",
+        # ]
+
         read_only = True
