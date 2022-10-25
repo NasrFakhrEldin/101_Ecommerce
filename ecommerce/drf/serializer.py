@@ -68,7 +68,7 @@ class MediaSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["name"]
+        fields = ["name", "slug", "is_active"]
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -118,3 +118,31 @@ class ProductInventorySerializer(serializers.ModelSerializer):
         # ]
 
         read_only = True
+
+
+"""
+Django-mptt model serialize with Django REST framework - Django 
+
+use RecursiveField from the djangorestframework-recursive package
+(https://github.com/heywbj/django-rest-framework -recursive)
+
+which can be installed via:
+
+pip3 install djangorestframework-recursive
+
+I was able to do it like so:
+
+from rest_framework_recursive.fields import RecursiveField
+
+class MyModelRecursiveSerializer(serializers.Serializer):
+
+    # your other fields
+
+    children = serializers.ListField(
+        read_only=True, source='your_get_children_method', child=RecursiveField()
+        )
+
+Just be aware that this is potentially expensive,
+so you might want to only use this for models whose entries do not change that often and cache the results.
+
+"""

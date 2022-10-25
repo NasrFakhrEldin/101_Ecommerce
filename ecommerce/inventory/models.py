@@ -18,6 +18,7 @@ class Category(MPTTModel):
         help_text=_("formate: required, max-100"),
     )
 
+    """unique=True"""
     slug = models.SlugField(
         max_length=150,
         null=False,
@@ -27,6 +28,7 @@ class Category(MPTTModel):
         help_text=_("formate: required, letters, numbers, underscore, or hyphens"),
     )
 
+    """default=False"""
     is_active = models.BooleanField(default=True)
 
     parent = TreeForeignKey(
@@ -83,6 +85,7 @@ class Product(models.Model):
         help_text=_("format: required, letters, numbers, underscores or hyphens"),
     )
 
+    """blank=True"""
     description = models.TextField(
         unique=False,
         null=False,
@@ -91,8 +94,17 @@ class Product(models.Model):
         help_text=_("format: required"),
     )
 
-    category = TreeManyToManyField(Category)
+    # category = TreeManyToManyField(Category)
 
+    category = models.ForeignKey(
+        Category,
+        related_name="product",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    """default=False"""
     is_active = models.BooleanField(
         unique=False,
         null=False,
@@ -132,6 +144,11 @@ class Brand(models.Model):
         verbose_name=_("brand name"),
         help_text=_("format: required, unique, max-255"),
     )
+
+    """
+    def __str__(self):
+        return self.name
+    """
 
 
 class ProductAttribute(models.Model):
@@ -239,6 +256,7 @@ class ProductInventory(models.Model):
         Product, related_name="product", on_delete=models.PROTECT
     )
 
+    """blank=True, null=True"""
     brand = models.ForeignKey(Brand, related_name="brand", on_delete=models.PROTECT)
 
     attribute_values = models.ManyToManyField(
@@ -304,6 +322,17 @@ class ProductInventory(models.Model):
         },
     )
 
+    """
+    is_on_sale = models.BooleanField(
+        default=False,
+    )
+    """
+    """
+    is_digital = models.BooleanField(
+        default=False,
+    )
+    """
+
     weight = models.FloatField(
         unique=False,
         null=False,
@@ -324,6 +353,11 @@ class ProductInventory(models.Model):
         help_text=_("format: Y-m-d H:M:S"),
     )
 
+    """
+    def __str__(self):
+            return self.sku
+    """
+
     def __str__(self):
         return self.product.name
 
@@ -333,6 +367,7 @@ class Media(models.Model):
     The product image table.
     """
 
+    ''' related_name="media"'''
     product_inventory = models.ForeignKey(
         ProductInventory,
         on_delete=models.PROTECT,
@@ -455,3 +490,17 @@ class ProductTypeAttribute(models.Model):
 
     class Meta:
         unique_together = (("product_attribute", "product_type"),)
+
+
+"""
+What are the advantages of django-treebeard over django-mptt - Django?
+
+- The main difference is choice of SQL tree implementation.
+
+django-mptt uses nested sets, which is fast for reads, slow for writes.
+
+Treebeard offers nested sets, as well as adjacency lists (fast writes, slow reads) and materialized path (fast reads, fastish writes).
+
+There are also other differences. django-mptt has a nicer API and better docs.
+
+"""
