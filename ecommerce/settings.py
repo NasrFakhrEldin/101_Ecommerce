@@ -152,6 +152,7 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
     DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
     ELASTICSEARCH_DSL = {"default": {"hosts": "localhost:9200"}}
 
     REST_FRAMEWORK = {

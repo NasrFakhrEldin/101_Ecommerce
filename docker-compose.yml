@@ -4,6 +4,7 @@ version: "3.8"
 
 services:
   pgdb:
+    profiles: [ "dev" ]
     container_name: pgdb_101_ecommerce
     image: postgres
     restart: always
@@ -15,10 +16,15 @@ services:
       - POSTGRES_PASSWORD=mypass
 
 
-  esearch:
+  elasticsearch:
     container_name: search
-    image: elasticsearch:7.14.2
+    image: elasticsearch:7.16.2
     environment:
+      - cluster.name=ecommerce-elasticsearch
       - discovery.type=single-node
     ports:
       - "9200:9200"
+    volumes:
+      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    depends_on:
+      - pgdb

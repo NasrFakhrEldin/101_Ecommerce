@@ -1,4 +1,5 @@
-[{
+[
+    {
         "model": "inventory.brand",
         "id": "1",
         "fields": {
@@ -240,7 +241,7 @@
         "model": "inventory.brand",
         "id": "35",
         "fields": {
-            "name": "aice \u0026 oivia"
+            "name": "aice & oivia"
         }
     },
     {
@@ -1703,7 +1704,7 @@
         "model": "inventory.brand",
         "id": "244",
         "fields": {
-            "name": "chase \u0026 choe"
+            "name": "chase & choe"
         }
     },
     {
@@ -1724,7 +1725,7 @@
         "model": "inventory.brand",
         "id": "247",
         "fields": {
-            "name": "chesea \u0026 zoe"
+            "name": "chesea & zoe"
         }
     },
     {
@@ -1766,7 +1767,7 @@
         "model": "inventory.brand",
         "id": "253",
         "fields": {
-            "name": "circa joan \u0026 david"
+            "name": "circa joan & david"
         }
     },
     {
@@ -1920,7 +1921,7 @@
         "model": "inventory.brand",
         "id": "275",
         "fields": {
-            "name": "coegiate surf \u0026 sport"
+            "name": "coegiate surf & sport"
         }
     },
     {
@@ -2067,7 +2068,7 @@
         "model": "inventory.brand",
         "id": "296",
         "fields": {
-            "name": "croft \u0026 barrow"
+            "name": "croft & barrow"
         }
     },
     {
@@ -2452,7 +2453,7 @@
         "model": "inventory.brand",
         "id": "351",
         "fields": {
-            "name": "doce \u0026 gabbana"
+            "name": "doce & gabbana"
         }
     },
     {
@@ -2480,7 +2481,7 @@
         "model": "inventory.brand",
         "id": "355",
         "fields": {
-            "name": "doce\u0026gabbana"
+            "name": "doce&gabbana"
         }
     },
     {
@@ -3348,7 +3349,7 @@
         "model": "inventory.brand",
         "id": "479",
         "fields": {
-            "name": "g.h. bass \u0026 co."
+            "name": "g.h. bass & co."
         }
     },
     {
@@ -4230,7 +4231,7 @@
         "model": "inventory.brand",
         "id": "605",
         "fields": {
-            "name": "joan \u0026 david"
+            "name": "joan & david"
         }
     },
     {
@@ -4265,7 +4266,7 @@
         "model": "inventory.brand",
         "id": "610",
         "fields": {
-            "name": "johnston \u0026 murphy"
+            "name": "johnston & murphy"
         }
     },
     {
@@ -4328,7 +4329,7 @@
         "model": "inventory.brand",
         "id": "619",
         "fields": {
-            "name": "joy \u0026 mario"
+            "name": "joy & mario"
         }
     },
     {
@@ -4475,7 +4476,7 @@
         "model": "inventory.brand",
         "id": "640",
         "fields": {
-            "name": "key \u0026 katie"
+            "name": "key & katie"
         }
     },
     {
@@ -5007,7 +5008,7 @@
         "model": "inventory.brand",
         "id": "716",
         "fields": {
-            "name": "m\u0026f western"
+            "name": "m&f western"
         }
     },
     {
@@ -6162,7 +6163,7 @@
         "model": "inventory.brand",
         "id": "881",
         "fields": {
-            "name": "p\u0026w york"
+            "name": "p&w york"
         }
     },
     {
@@ -6351,7 +6352,7 @@
         "model": "inventory.brand",
         "id": "908",
         "fields": {
-            "name": "\u0026 pepper"
+            "name": "& pepper"
         }
     },
     {
@@ -6589,7 +6590,7 @@
         "model": "inventory.brand",
         "id": "942",
         "fields": {
-            "name": "rag \u0026 bone"
+            "name": "rag & bone"
         }
     },
     {
@@ -6820,7 +6821,7 @@
         "model": "inventory.brand",
         "id": "975",
         "fields": {
-            "name": "rock \u0026 candy"
+            "name": "rock & candy"
         }
     },
     {
@@ -7597,14 +7598,14 @@
         "model": "inventory.brand",
         "id": "1086",
         "fields": {
-            "name": "stye \u0026 co"
+            "name": "stye & co"
         }
     },
     {
         "model": "inventory.brand",
         "id": "1087",
         "fields": {
-            "name": "stye \u0026 co."
+            "name": "stye & co."
         }
     },
     {

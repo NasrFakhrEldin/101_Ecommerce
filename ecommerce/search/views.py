@@ -3,19 +3,22 @@ from elasticsearch_dsl import Q
 from rest_framework.views import APIView
 from rest_framework.pagination import LimitOffsetPagination
 
-from ecommerce.drf.serializer import ProductInventorySerializer
+from ecommerce.drf.serializer import ProductInventorySerializerSearch
 from ecommerce.search.documents import ProductInventoryDocument
 
 
 class ProdcutInventorySearch(APIView, LimitOffsetPagination):
-    productinventory_serializer = ProductInventorySerializer
+    productinventory_serializer = ProductInventorySerializerSearch
     search_document = ProductInventoryDocument
 
     def get(self, request, query):
         try:
             q = Q(
-                "multi_match", query=query, fields=["product.name"], fuzziness="auto"
-            ) & Q("bool", should=Q("match", is_default=True), minimum_should_match=1)
+                "multi_match",
+                query=query,
+                fields=["product.name", "product.web_id", "brand.name"],
+                fuzziness="auto",
+            ) & Q("bool", should=[Q("match", is_default=True)], minimum_should_match=1)
 
             search = self.search_document.search().query(q)
             response = search.execute()

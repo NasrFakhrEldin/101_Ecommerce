@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions, mixins
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from ecommerce.drf.serializer import (
     ProductSerializer,
@@ -9,18 +10,37 @@ from ecommerce.drf.serializer import (
 from ecommerce.inventory.models import Category, Product, ProductInventory
 
 
-class ProductByCategory(viewsets.GenericViewSet, mixins.ListModelMixin):
+class ProductInventoryByWebId(viewsets.GenericViewSet, mixins.ListModelMixin):
     """
-    API endpoint that returns products by category
+    API endpoint that returns products inventory by web_id
     """
 
     queryset = ProductInventory.objects.all()
 
-    def list(self, request, slug=None, *args, **kwargs):
-        queryset = ProductInventory.objects.filter(product__category__slug=slug).filter(
+    def list(self, request, web_id=None, *args, **kwargs):
+        queryset = ProductInventory.objects.filter(product__web_id=web_id).filter(
             is_default=True
         )[:10]
-        serializer = ProductInventorySerializer(
+        # serializer = ProductInventorySerializer(
+        #     queryset, context={"request": request}, many=True
+        # )
+        serializer = ProductInventorySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class ProductByCategory(viewsets.ViewSet):
+    """
+    API endpoint that returns products by category
+    """
+
+    def list(self, request, slug=None):
+        queryset = Product.objects.filter(category__slug=slug)
+        serializer = ProductSerializer(
             queryset, context={"request": request}, many=True
         )
         return Response(serializer.data)
@@ -29,11 +49,6 @@ class ProductByCategory(viewsets.GenericViewSet, mixins.ListModelMixin):
 """
 just for test
 """
-
-
-class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
 
 
 # class ProductViewSet(viewsets.ModelViewSet):

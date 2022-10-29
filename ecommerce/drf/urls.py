@@ -16,6 +16,13 @@ router.register(
 """
 Main Endpoint
 """
+
+router.register(
+    r"product-inventory/(?P<web_id>[^/.]+)",
+    views.ProductInventoryByWebId,
+    basename="productinventorybycategory",
+)
+
 router.register(
     r"product/(?P<slug>[^/.]+)",
     views.ProductByCategory,

@@ -46,6 +46,7 @@ class Category(MPTTModel):
         order_insertion_by = ["name"]
 
     class Meta:
+        ordering = ["name"]
         verbose_name = _("product category")
         verbose_name_plural = _("product categories")
 
@@ -145,10 +146,8 @@ class Brand(models.Model):
         help_text=_("format: required, unique, max-255"),
     )
 
-    """
     def __str__(self):
         return self.name
-    """
 
 
 class ProductAttribute(models.Model):
@@ -277,6 +276,17 @@ class ProductInventory(models.Model):
         help_text=_("format: true=sub product visible"),
     )
 
+    is_on_sale = models.BooleanField(
+        default=False,
+        verbose_name=_("product on sale or not"),
+    )
+
+    is_digital = models.BooleanField(
+        default=False,
+        verbose_name=_("product breakable"),
+        help_text=_("format: true=product breakable"),
+    )
+
     retail_price = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -322,17 +332,6 @@ class ProductInventory(models.Model):
         },
     )
 
-    """
-    is_on_sale = models.BooleanField(
-        default=False,
-    )
-    """
-    """
-    is_digital = models.BooleanField(
-        default=False,
-    )
-    """
-
     weight = models.FloatField(
         unique=False,
         null=False,
@@ -371,7 +370,7 @@ class Media(models.Model):
     product_inventory = models.ForeignKey(
         ProductInventory,
         on_delete=models.PROTECT,
-        related_name="media_product_inventory",
+        related_name="media",
     )
 
     img_url = models.ImageField(

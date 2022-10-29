@@ -6,11 +6,11 @@ from ecommerce.inventory.models import (
     Category,
     Media,
     Product,
-    # ProductAttribute,
+    ProductAttribute,
     ProductInventory,
     ProductAttributeValue,
     ProductType,
-    # ProductTypeAttribute,
+    ProductTypeAttribute,
 )
 
 
@@ -18,6 +18,7 @@ class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = ["name"]
+        read_only = True
 
 
 # class ProductAttributeSerializer(serializers.ModelSerializer):
@@ -26,19 +27,20 @@ class BrandSerializer(serializers.ModelSerializer):
 #         exclude = ["id"]
 
 
-class ProductAtrributeValueSerializer(serializers.ModelSerializer):
+class ProductAttributeValueSerializer(serializers.ModelSerializer):
     # product_attribute = ProductAttributeSerializer(many=False, read_only=True)
 
     class Meta:
         model = ProductAttributeValue
         depth = 2
         exclude = ["id"]
+        read_only = True
 
 
-class ProductTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductType
-        fields = ["name"]
+# class ProductTypeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ProductType
+#         fields = ["name"]
 
 
 # class ProductTypeAtrributeSerializer(serializers.ModelSerializer):
@@ -54,21 +56,23 @@ class ProductTypeSerializer(serializers.ModelSerializer):
 class MediaSerializer(serializers.ModelSerializer):
     img_url = serializers.SerializerMethodField()
 
-    def get_img_url(self, obj):
-        # return self.context["request"].build_absolute_uri(location=None)
-        return self.context["request"].build_absolute_uri(location=obj.img_url.url)
-
     class Meta:
         model = Media
         fields = ["img_url", "alt_text"]
         read_only = True
         editable = False
 
+    def get_img_url(self, obj):
+        # return self.context["request"].build_absolute_uri(location=None)
+        return obj.img_url.url
+        # return self.context["request"].build_absolute_uri(location=obj.img_url.url)
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["name", "slug", "is_active"]
+        read_only = True
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -77,21 +81,22 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         # fields = ["web_id", "slug", "name", "description", "category"]
-        fields = ["name"]
+        fields = ["name", "web_id"]
         read_only = True
         editable = False
 
 
 class ProductInventorySerializer(serializers.ModelSerializer):
+    brand = BrandSerializer(read_only=True)
     product = ProductSerializer(many=False, read_only=True)
-    # image = MediaSerializer(source="media_product_inventory", many=True, read_only=True)
-    # type = ProductTypeSerializer(source="product_type", many=False, read_only=True)
-    # attributes = ProductAtrributeValueSerializer(
-    #     source="attribute_values", many=True, read_only=True
-    # )
-    # brand = BrandSerializer(many=False, read_only=True)
-    # price = serializers.DecimalField(
-    #     source="retail_price", max_digits=5, decimal_places=2
+    media = MediaSerializer(many=True, read_only=True)
+
+    attributes = ProductAttributeValueSerializer(
+        source="attribute_values", many=True, read_only=True
+    )
+    # product_type = ProductTypeSerializer(many=False, read_only=True)
+    # retail_price = serializers.DecimalField(
+    #      max_digits=5, decimal_places=2
     # )
 
     class Meta:
@@ -102,7 +107,13 @@ class ProductInventorySerializer(serializers.ModelSerializer):
             "sku",
             "store_price",
             "is_default",
+            "brand",
             "product",
+            "is_on_sale",
+            "weight",
+            "media",
+            "attributes",
+            "product_type",
         ]
 
         # fields = [
@@ -118,6 +129,22 @@ class ProductInventorySerializer(serializers.ModelSerializer):
         # ]
 
         read_only = True
+
+
+class ProductInventorySerializerSearch(serializers.ModelSerializer):
+    brand = BrandSerializer(read_only=True)
+    product = ProductSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = ProductInventory
+        fields = [
+            "id",
+            "sku",
+            "store_price",
+            "is_default",
+            "product",
+            "brand",
+        ]
 
 
 """
