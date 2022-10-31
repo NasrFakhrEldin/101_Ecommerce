@@ -1,4 +1,3 @@
-from pyexpat import model
 from typing import List
 from ninja import Field, ModelSchema
 from ecommerce.inventory.models import (
