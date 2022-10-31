@@ -20,5 +20,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("demo/", include("ecommerce.demo.urls", namespace="demo")),
     path("api/v1/", include("ecommerce.drf.urls", namespace="drf")),
-    path("dninja/", include("ecommerce.dninja.ulrs", namespace="dninja")),
+    path("dninja/", include("ecommerce.dninja.urls", namespace="dninja")),
 ]
