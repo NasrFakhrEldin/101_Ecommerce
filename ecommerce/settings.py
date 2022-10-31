@@ -47,10 +47,12 @@ class Dev(Configuration):
         "ecommerce.demo",
         "ecommerce.drf",
         "ecommerce.search",
+        "ecommerce.dninja",
         # External Apps
         "mptt",
         "django_elasticsearch_dsl",
         "rest_framework",
+        "ninja",
     ]
 
     MIDDLEWARE = [
