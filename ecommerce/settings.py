@@ -12,9 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
-from configurations import Configuration
-from configurations import values
 import dj_database_url
+from configurations import Configuration, values
 
 
 class Dev(Configuration):
@@ -49,6 +48,7 @@ class Dev(Configuration):
         "ecommerce.drf",
         "ecommerce.search",
         "ecommerce.dninja",
+        "ecommerce.promotion",
         # External Apps
         "mptt",
         "django_elasticsearch_dsl",
