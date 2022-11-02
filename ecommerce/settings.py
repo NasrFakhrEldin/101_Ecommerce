@@ -14,6 +14,7 @@ from pathlib import Path
 
 from configurations import Configuration
 from configurations import values
+import dj_database_url
 
 
 class Dev(Configuration):
@@ -95,24 +96,22 @@ class Dev(Configuration):
     #     }
     # }
 
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "db_101_ecommerce",
-            "USER": "101ecommerceuser",
-            "PASSWORD": "mypass",
-            "HOST": "127.0.0.1",
-            "PORT": "5432",
-        }
-    }
-
     # DATABASES = {
-    #     "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
-    #     "alternative": dj_database_url.config(
-    #         "ALTERNATIVE_DATABASE_URL",
-    #             default=f"sqlite:///{BASE_DIR}/alternative_db.sqlite3",
-    #             ),
+    #     "default": {
+    #         "ENGINE": "django.db.backends.postgresql_psycopg2",
+    #         "NAME": "db_101_ecommerce",
+    #         "USER": "101ecommerceuser",
+    #         "PASSWORD": "mypass",
+    #         "HOST": "127.0.0.1",
+    #         "PORT": "5432",
+    #     }
     # }
+
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=f"postgres://101ecommerceuser:mypass@pgdb:5432/db_101_ecommerce"
+        ),
+    }
 
     # Password validation
     # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

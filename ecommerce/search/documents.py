@@ -4,7 +4,7 @@ from django_elasticsearch_dsl.registries import registry
 from ecommerce.inventory.models import ProductInventory
 
 
-@registry.register_document
+# @registry.register_document
 class ProductInventoryDocument(Document):
 
     product = fields.ObjectField(

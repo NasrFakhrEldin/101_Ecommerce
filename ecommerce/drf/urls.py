@@ -1,7 +1,7 @@
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import include, path
 from ecommerce.drf import views
 from ecommerce.search.views import ProdcutInventorySearch
+from rest_framework import routers
 
 app_name = "drf"
 

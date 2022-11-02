@@ -1,7 +1,6 @@
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
-
 from django.utils.translation import gettext_lazy as _
+from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
 
 
 class Category(MPTTModel):
