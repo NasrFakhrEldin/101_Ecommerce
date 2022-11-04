@@ -19,6 +19,9 @@ class Coupon(models.Model):
     name = models.CharField(max_length=255)
     coupon_code = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.coupon_code
+
 
 class Promotion(models.Model):
 

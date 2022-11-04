@@ -9,7 +9,13 @@ admin.site.register(models.Product)
 admin.site.register(models.ProductAttribute)
 admin.site.register(models.ProductAttributeValue)
 admin.site.register(models.ProductAttributeValues)
-admin.site.register(models.ProductInventory)
 admin.site.register(models.ProductType)
 admin.site.register(models.ProductTypeAttribute)
 admin.site.register(models.Stock)
+
+
+class ProductInventoryAdmin(admin.ModelAdmin):
+    list_display = ("product", "store_price", "sku", "is_active")
+
+
+admin.site.register(models.ProductInventory, ProductInventoryAdmin)
