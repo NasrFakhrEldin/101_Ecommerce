@@ -15,7 +15,7 @@ admin.site.register(models.Stock)
 
 
 class ProductInventoryAdmin(admin.ModelAdmin):
-    list_display = ("product", "store_price", "sku", "is_active")
+    list_display = ("product", "store_price", "sku", "is_active", "id")
 
 
 admin.site.register(models.ProductInventory, ProductInventoryAdmin)

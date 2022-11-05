@@ -30,7 +30,6 @@ services:
       - POSTGRES_USER=101ecommerceuser
       - POSTGRES_PASSWORD=mypass
 
-
   elasticsearch:
     container_name: search
     image: elasticsearch:7.16.2
@@ -52,38 +51,46 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
-  # celery:
-  #   container_name: celery_ecommerce
-  #   restart: always
-  #   build: 
-  #     context: .
-  #   command: celery -A ecommerce worker -l info
-  #   environment:
-  #     - DEBUG=1
-  #     - CELERY_BROKER=redis://redis:6379/0
-  #     - CELERY_BACKEND=redis://redis:6379:0
-  #   depends_on:
-  #     - redis
-  #   volumes:
-  #     - .:/usr/src/app
 
-  # celery-beat:
-  #   container_name: celery_beat_ecommerce
-  #   restart: always
-  #   build:
-  #     context: .
-  #   command: celery -A ecommerce beat -l info
-  #   depends_on:
-  #     - redis
-  #     - celery
-  #   volumes:
-  #     - .:/usr/src/app
+  celery:
+    container_name: celery_ecommerce
+    restart: always
+    build:
+      context: .
+    command: celery -A ecommerce worker -l info
+    environment:
+      - DJANGO_SECRET_KEY=django-insecure-wvnt5!!e*m1&d$wi5^hcbrwl=b+sci2k(^j%(v33n*=y-5n8d+
+      - DJANGO_CONFIGURATION=Dev
+      - DEBUG=1
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379:0
+    depends_on:
+      - redis
+    volumes:
+      - .:/usr/src/app
 
-  # flower:
-  #   container_name: flower_ecommerce
-  #   image: mher/flower
-  #   environment:
-  #     - CELERY_BROKER_URL=redis://redis:6379/0
-  #     - FLOWER_PORT=8888
-  #   ports:
-  #     - "8888:8888"
+  celery-beat:
+    container_name: celery_beat_ecommerce
+    restart: always
+    build:
+      context: .
+    command: celery -A ecommerce beat -l info
+    environment:
+      - DJANGO_SECRET_KEY=django-insecure-wvnt5!!e*m1&d$wi5^hcbrwl=b+sci2k(^j%(v33n*=y-5n8d+
+      - DJANGO_CONFIGURATION=Dev
+    depends_on:
+      - redis
+      - celery
+    volumes:
+      - .:/usr/src/app
+
+  flower:
+    container_name: flower_ecommerce
+    image: mher/flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888
+      - DJANGO_SECRET_KEY=django-insecure-wvnt5!!e*m1&d$wi5^hcbrwl=b+sci2k(^j%(v33n*=y-5n8d+
+      - DJANGO_CONFIGURATION=Dev
+    ports:
+      - "8888:8888"

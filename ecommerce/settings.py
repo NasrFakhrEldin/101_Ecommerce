@@ -54,6 +54,7 @@ class Dev(Configuration):
         "django_elasticsearch_dsl",
         "rest_framework",
         "ninja",
+        "django_celery_beat",
     ]
 
     MIDDLEWARE = [
@@ -159,4 +160,14 @@ class Dev(Configuration):
     REST_FRAMEWORK = {
         "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
         "PAGE_SIZE": 25,
+    }
+    from celery.schedules import crontab
+
+    CELERY_BROKER_URL = "redis://redis:6379"
+    CELERY_RESULT_BACKEND = "redis://redis:6379"
+    CELERY_BEAT_SCHEDULE = {
+        "sample_task": {
+            "task": "ecommerce.promotion.tasks.promotion_managment_is_active",
+            "schedule": crontab(minute="0", hour="1"),
+        },
     }
