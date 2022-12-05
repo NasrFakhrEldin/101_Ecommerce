@@ -49,6 +49,7 @@ class Dev(Configuration):
         "ecommerce.search",
         "ecommerce.dninja",
         "ecommerce.promotion",
+        "ecommerce.cbv",
         # External Apps
         "mptt",
         "django_elasticsearch_dsl",
@@ -72,7 +73,7 @@ class Dev(Configuration):
     TEMPLATES = [
         {
             "BACKEND": "django.template.backends.django.DjangoTemplates",
-            "DIRS": [],
+            "DIRS": [BASE_DIR / "templates"],
             "APP_DIRS": True,
             "OPTIONS": {
                 "context_processors": [
