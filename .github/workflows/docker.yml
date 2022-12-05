@@ -27,8 +27,7 @@ jobs:
         with:
           push: true
           tags: nasrfakhreldin/101_ecommerce:latest
-          # image: nasrfakhreldin/101_ecommerce
-      # -
-      #   name: Run Tests
-      #   run: |
-      #     pytest
+      -
+        name: Run Tests
+        run: |
+          python manage.py test
