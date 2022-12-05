@@ -1,2 +1,2 @@
 # 101_Ecommerce
-101 Ecommerce
+### A custom E-Commerce app that I built from scratch to apply the new tools and techniques I learn.
