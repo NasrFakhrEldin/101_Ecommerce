@@ -12,6 +12,9 @@ class Basket:
             basket = self.session["session_key"] = {}
         self.basket = basket
 
+    def save(self):
+        self.session.modified = True
+
     def add(self, product, quantity):
         product_web_id = product.product.web_id
 
@@ -20,7 +23,13 @@ class Basket:
                 "price": str(product.store_price),
                 "quantity": int(quantity),
             }
-        self.session.modified = True
+        self.save()
+
+    def delete(self, product):
+        product_web_id = product
+        if product_web_id in self.basket:
+            del self.basket[product_web_id]
+        self.save()
 
     def __iter__(self):
         products_web_ids = self.basket.keys()
