@@ -16,17 +16,26 @@ class Basket:
         self.session.modified = True
 
     def add(self, product, quantity):
-        product_web_id = product.product.web_id
+        product_web_id = str(product.product.web_id)
 
-        if product_web_id not in self.basket:
+        if product_web_id in self.basket:
+            self.basket[product_web_id]["quantity"] = quantity
+        else:
             self.basket[product_web_id] = {
                 "price": str(product.store_price),
                 "quantity": int(quantity),
             }
         self.save()
 
+    def update(self, product, quantity):
+        product_web_id = str(product)
+
+        if product_web_id in self.basket:
+            self.basket[product_web_id]["quantity"] = quantity
+        self.save()
+
     def delete(self, product):
-        product_web_id = product
+        product_web_id = str(product)
         if product_web_id in self.basket:
             del self.basket[product_web_id]
         self.save()
@@ -49,9 +58,10 @@ class Basket:
     def __len__(self):
         return sum(item["quantity"] for item in self.basket.values())
 
-    def get_total_price(self):
-        sub_price = sum(item["total_price"] for item in self.basket.values())
-        return Decimal(sub_price)
+    def get_sub_total_price(self):
+        return sum(
+            Decimal(item["price"]) * item["quantity"] for item in self.basket.values()
+        )
 
     # basket = ""
     # def __init__(self, request):
