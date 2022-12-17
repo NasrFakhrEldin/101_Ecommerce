@@ -30,7 +30,7 @@ class Dev(Configuration):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
 
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ["127.0.0.1"]
 
     # Application definition
 
@@ -50,6 +50,7 @@ class Dev(Configuration):
         "ecommerce.dninja",
         "ecommerce.promotion",
         "ecommerce.cbv",
+        "ecommerce.basket",
         # External Apps
         "mptt",
         "django_elasticsearch_dsl",
@@ -81,6 +82,8 @@ class Dev(Configuration):
                     "django.template.context_processors.request",
                     "django.contrib.auth.context_processors.auth",
                     "django.contrib.messages.context_processors.messages",
+                    "ecommerce.basket.context_processors.basket",
+                    "ecommerce.cbv.context_processors.categories",
                 ],
             },
         },
@@ -149,7 +152,7 @@ class Dev(Configuration):
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-    STATIC_URL = "static/"
+    STATIC_URL = "/static/"
 
     # Default primary key field type
     # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

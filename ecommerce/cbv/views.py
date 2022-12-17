@@ -17,21 +17,21 @@ class HomeView(TemplateView):
         )
 
 
-# class ProductListView(ListView):
-#     template_name = "product_list.html"
+class CategoriesListView(ListView):
+    template_name = "cbv/all_categories.html"
 
-#     def get(self, request, *args, **kwargs):
-#         product_list = Product.objects.all()
-#         return render(
-#             request,
-#             self.template_name,
-#             {
-#                 "product_list": product_list,
-#             },
-#         )
+    def get(self, request, *args, **kwargs):
+        categories_list = Category.objects.all()
+        return render(
+            request,
+            self.template_name,
+            {
+                "categories_list": categories_list,
+            },
+        )
 
 
-class CategoryListView(ListView):
+class CategoryProductListView(ListView):
     template_name = "cbv/category_list.html"
 
     def get(self, request, category_slug=None, *args, **kwargs):

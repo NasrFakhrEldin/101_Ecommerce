@@ -22,4 +22,5 @@ urlpatterns = [
     path("api/v1/", include("ecommerce.drf.urls", namespace="drf")),
     path("dninja/", include("ecommerce.dninja.urls", namespace="dninja")),
     path("", include("ecommerce.cbv.urls", namespace="cbv")),
+    path("basket/", include("ecommerce.basket.urls", namespace="basket")),
 ]

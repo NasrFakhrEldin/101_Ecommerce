@@ -1,5 +1,6 @@
 pytest_plugins = [
-    "ecommerce.tests.c_client",
+    "ecommerce.tests.basket_fixtures",
+    "ecommerce.tests.client",
     "ecommerce.tests.inventory_fixtures",
     "ecommerce.tests.api_client",
     "ecommerce.tests.fixtures",

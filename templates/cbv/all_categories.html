@@ -1,0 +1,38 @@
+{% extends "cbv/base.html" %}
+{% load static %}
+{% block title %}
+Categories
+{% endblock %}
+{% block content %}
+
+
+<main>
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="pb-3 h5">{{categories_list.name|title}}</div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+
+        {% for category in categories_list %}
+
+        <div class="col">
+          <div class="card shadow-sm">
+
+            <div class="card-body">
+              <p class="card-text">
+                <span class="text-dark text-decoration-none h4 fw-bold">{{ category.name }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+
+</main>
+
+{% endblock %}
