@@ -3,7 +3,6 @@
 {% block title %}101 Ecommerce{% endblock %}
 {% block content %}
 
-
 <main>
   <div class="container">
     <div class="alert alert-primary fw600 rounded-0 border-0 py-3" role="alert">
@@ -17,19 +16,48 @@
       your patience and support.
     </div>
 
-  <section class="py-5 text-center container">
-    <div class="row py-lg-3">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="h1 fw-bold">New, Special, Good Price</h1>
-        <p class="lead text-muted">All special products in one place</p>
-        <p>
-          <a href="#" class="btn btn-primary my-2">Make an account</a>
-        </p>
+    <section class="py-5 text-center container">
+      <div class="row py-lg-3">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="h1 fw-bold">New, Special, Good Price</h1>
+          <p class="lead text-muted">All special products in one place</p>
+          {% if user.is_anonymous %}
+          <p>
+            <a href="{% url 'django_registration_register' %}" class="btn btn-primary my-2">Make an account</a>
+          </p>
+          {%endif%}
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="album py-5">
+          <div class="pb-3">
+            <h1 class="h3">Popular</h1>
+          </div>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+            {% for product in product_list %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="img-fluid" alt="Responsive image" src="{{ product.media.img_url }}">
+                <div class="card-body">
+                  <p class="card-text">
+                    <a class="text-dark text-decoration-none"
+                      href="{% url "cbv:product_detail" product.product.slug %}">{{ product.product.name|slice:":50" }}...</a>
+                  </p>
+                  <div class="fw-bold">£{{ product.store_price }}</div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
-  </section>
-  {% include 'cbv/products.html' %}
-
 </main>
+
 
 {% endblock %}

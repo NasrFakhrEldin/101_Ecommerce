@@ -1,3 +1,4 @@
+import phonenumbers
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView, TemplateView
 from ecommerce.inventory.models import Category, Product, ProductInventory
@@ -61,3 +62,10 @@ class ProductDetialView(DetailView):
                 "product": product,
             },
         )
+
+
+# def test(request):
+#     print = phonenumbers.parse("+201274125151",None)
+#     return render(request, "cbv/test.html", {
+#         'print': print
+#     })

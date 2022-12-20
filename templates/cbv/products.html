@@ -11,7 +11,7 @@
           <img class="img-fluid" alt="Responsive image" src="{{ product.media.img_url }}">
           <div class="card-body">
             <p class="card-text">
-              <a class="text-dark text-decoration-none" href="{% url "cbv:product_detail" product.product.slug %}">{{ product.product.name|slice:":50" }}...</a>
+              <a class="text-dark text-decoration-none" href="{% url "cbv:product_detail" product.product.slug %}">{{ product.product.name|slice }}...</a>
               <p></p>
             </p>
             <div class="d-flex justify-content-between align-items-center">

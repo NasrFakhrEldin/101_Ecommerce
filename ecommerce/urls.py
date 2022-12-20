@@ -16,8 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+# from django_registration.backends.activation.views import RegistrationView
+
+# from ecommerce.ecommerce_auth import views
+# from ecommerce.ecommerce_auth.forms import EcommerceRegistrationForm
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("accounts/", include("ecommerce.ecommerce_auth.urls")),
+    # Registration
+    # path(
+    #     "accounts/register/",
+    #     RegistrationView.as_view(form_class=EcommerceRegistrationForm),
+    #     name="django_registration_register",
+    # ),
+    # path("accounts/", include("django_registration.backends.activation.urls")),
+    # path("accounts/profile/", views.profile, name="profile"),
+    path("accounts/", include("django.contrib.auth.urls")),
     path("demo/", include("ecommerce.demo.urls", namespace="demo")),
     path("api/v1/", include("ecommerce.drf.urls", namespace="drf")),
     path("dninja/", include("ecommerce.dninja.urls", namespace="dninja")),

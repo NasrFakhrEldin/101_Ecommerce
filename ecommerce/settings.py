@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 import dj_database_url
@@ -41,6 +42,9 @@ class Dev(Configuration):
         "django.contrib.sessions",
         "django.contrib.messages",
         "django.contrib.staticfiles",
+        "django_registration",
+        "crispy_forms",
+        "crispy_bootstrap5",
         # Local Apps
         "ecommerce.dashboard",
         "ecommerce.inventory",
@@ -51,12 +55,14 @@ class Dev(Configuration):
         "ecommerce.promotion",
         "ecommerce.cbv",
         "ecommerce.basket",
+        "ecommerce.ecommerce_auth",
         # External Apps
         "mptt",
         "django_elasticsearch_dsl",
         "rest_framework",
         "ninja",
         "django_celery_beat",
+        "phonenumber_field",
     ]
 
     MIDDLEWARE = [
@@ -153,6 +159,7 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
     STATIC_URL = "/static/"
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
     # Default primary key field type
     # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -175,3 +182,13 @@ class Dev(Configuration):
             "schedule": crontab(minute="0", hour="1"),
         },
     }
+
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    # AUTH_APP
+    AUTH_USER_MODEL = "ecommerce_auth.User"
+    # Two-Step Activation
+    ACCOUNT_ACTIVATION_DAYS = 3
+
+    CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+    CRISPY_TEMPLATE_PACK = "bootstrap5"

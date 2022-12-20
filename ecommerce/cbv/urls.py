@@ -20,4 +20,9 @@ urlpatterns = [
         views.CategoriesListView.as_view(),
         name="categories_list",
     ),
+    # path(
+    #     "test/",
+    #     views.test,
+    #     name="test",
+    # ),
 ]
